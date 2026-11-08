@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kelola Produk - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f4f3f0] font-sans flex h-screen">
+
+    <div class="flex-1 p-10 overflow-y-auto">
+        <!-- Header & Navigasi -->
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h1 class="text-3xl font-extrabold text-gray-900">Dasbor Admin</h1>
+                <div class="flex gap-4 mt-4">
+                    <a href="/admin/produk" class="text-[#f5b841] font-bold border-b-2 border-[#f5b841] pb-1">Produk Menu</a>
+                    <a href="/admin/kategori" class="text-gray-500 font-semibold hover:text-gray-900 pb-1">Kategori Menu</a>
+                </div>
+            </div>
+            <!-- Penambahan Tombol Keluar & Tambah Produk dalam satu baris -->
+            <div class="flex gap-3">
+                <a href="/logout" class="bg-red-100 text-red-700 px-6 py-3 rounded-lg font-bold hover:bg-red-200 transition">Keluar</a>
+                <a href="/admin/produk/tambah" class="bg-[#1a1714] text-white px-6 py-3 rounded-lg font-bold hover:bg-black transition shadow-md">Tambah Produk</a>
+            </div>
+        </div>
+
+        <!-- Tabel Produk -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50 text-gray-700 uppercase text-sm border-b border-gray-200">
+                        <th class="p-4 font-bold">Nama Menu</th>
+                        <th class="p-4 font-bold">Kategori</th>
+                        <th class="p-4 font-bold">Harga</th>
+                        <th class="p-4 font-bold">Status</th>
+                        <th class="p-4 font-bold text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-800">
+                    {% for item in produk %}
+                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                        <td class="p-4 font-semibold">{{ item.nama }}</td>
+                        <td class="p-4">{{ item.kategori_rel.nama }}</td>
+                        <td class="p-4">Rp {{ item.harga }}</td>
+                        <td class="p-4">
+                            {% if item.status_ready %}
+                                <span class="bg-green-100 text-green-700 py-1 px-3 rounded-full text-xs font-bold">Ready</span>
+                            {% else %}
+                                <span class="bg-red-100 text-red-700 py-1 px-3 rounded-full text-xs font-bold">Habis</span>
+                            {% endif %}
+                        </td>
+                        <td class="p-4 text-center flex justify-center gap-2">
+                            <!-- Tombol Edit -->
+                            <a href="/admin/produk/edit/{{ item.id }}" class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold hover:bg-blue-200 transition">Edit</a>
+                            <!-- Tombol Hapus -->
+                            <a href="/admin/produk/hapus/{{ item.id }}" onclick="return confirm('Yakin hapus?')" class="px-4 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-semibold hover:bg-red-200 transition">Hapus</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi Kasir - Jotoast</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f4f3f0] font-sans flex h-screen overflow-hidden">
+
+    <!-- Sisi Kiri: Daftar Menu dan Filter -->
+    <div class="flex-1 p-10 overflow-y-auto">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-8">Transaksi Kasir</h1>
+        
+        <!-- Filter Kategori & Tombol Pesanan Online -->
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex gap-3">
+                <button class="px-6 py-2.5 rounded-lg bg-[#f5b841] text-gray-900 font-bold shadow-sm">Semua</button>
+                <button class="px-6 py-2.5 rounded-lg bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition">Ricebowl</button>
+                <button class="px-6 py-2.5 rounded-lg bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition">Tost</button>
+                <button class="px-6 py-2.5 rounded-lg bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition">Kopi</button>
+            </div>
+            <button class="px-6 py-2.5 rounded-lg bg-white text-gray-900 font-bold shadow-sm border border-gray-200 hover:bg-gray-50 transition">Pesanan online</button>
+        </div>
+
+        <!-- Grid Produk (Terhubung ke Database) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {% for item in produk %}
+            <div class="bg-white p-5 rounded-2xl shadow-sm cursor-pointer hover:shadow-md transition border border-transparent hover:border-[#f5b841]">
+                <div class="w-full h-32 bg-[#efede8] rounded-xl mb-4"></div> <!-- Placeholder Foto -->
+                <h3 class="font-bold text-gray-900 text-lg">{{ item.nama }}</h3>
+                <p class="text-gray-500 text-sm mt-1">Rp {{ item.harga }}</p>
+            </div>
+            {% else %}
+            <p class="text-gray-500">Belum ada produk di database.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Sisi Kanan: Panel Struk/Pesanan -->
+    <div class="w-[420px] bg-white border-l border-gray-200 flex flex-col shadow-xl z-10">
+        <div class="p-8 flex-1 overflow-y-auto">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Pesanan saat ini</h2>
+            
+            <!-- Daftar Belanjaan (Sementara Statis sesuai desain) -->
+            <div class="space-y-4 mb-8">
+                <div class="flex justify-between text-gray-700">
+                    <span>Ricebowl Ayam, varian pedas x1</span>
+                    <span class="font-bold text-gray-900">Rp 15.000</span>
+                </div>
+                <div class="flex justify-between text-gray-700">
+                    <span>Kopi Susu x2</span>
+                    <span class="font-bold text-gray-900">Rp 16.000</span>
+                </div>
+            </div>
+
+            <!-- Total Harga -->
+            <div class="border-t border-gray-200 pt-5 flex justify-between items-center mb-8">
+                <span class="text-xl font-bold text-gray-900">Total</span>
+                <span class="text-xl font-bold text-gray-900">Rp 31.000</span>
+            </div>
+
+            <form action="/kasir/proses_transaksi" method="POST">
+                <!-- Input hidden untuk total harga -->
+                <input type="hidden" name="total_harga" value="31000">
+
+                <!-- Pilihan Metode Pembayaran -->
+                <div class="flex gap-3 mb-6">
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="metode_bayar" value="Tunai" class="peer sr-only" checked>
+                        <div class="w-full py-3.5 text-center rounded-xl bg-[#efede8] text-gray-700 font-semibold peer-checked:bg-[#f5b841] peer-checked:text-gray-900 peer-checked:font-bold shadow-sm transition">Tunai</div>
+                    </label>
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="metode_bayar" value="Non tunai" class="peer sr-only">
+                        <div class="w-full py-3.5 text-center rounded-xl bg-[#efede8] text-gray-700 font-semibold peer-checked:bg-[#f5b841] peer-checked:text-gray-900 peer-checked:font-bold shadow-sm transition">Non tunai</div>
+                    </label>
+                </div>
+
+                <!-- Input Uang Diterima -->
+                <div class="mb-6">
+                    <label class="block text-gray-800 font-semibold mb-2">Uang diterima</label>
+                    <input type="number" name="uang_diterima" placeholder="Rp" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-[#f5b841] focus:ring-1 focus:ring-[#f5b841] text-lg">
+                </div>
+
+                <!-- Info Kembalian -->
+                <div class="flex justify-between items-center text-gray-900 mb-8">
+                    <span class="font-medium text-gray-600">Kembalian</span>
+                    <span class="font-bold text-lg">Rp [kembalian]</span>
+                </div>
+                
+                <!-- Tombol Eksekusi -->
+                <button type="submit" class="w-full py-4 bg-[#1a1714] text-white rounded-xl font-bold text-lg hover:bg-black transition shadow-lg">Bayar dan catat transaksi</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kelola Kategori - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f4f3f0] font-sans flex h-screen">
+
+    <div class="flex-1 p-10 overflow-y-auto">
+        <!-- Header & Navigasi -->
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h1 class="text-3xl font-extrabold text-gray-900">Dasbor Admin</h1>
+                <div class="flex gap-4 mt-4">
+                    <a href="/admin/produk" class="text-gray-500 font-semibold hover:text-gray-900 pb-1">Produk Menu</a>
+                    <a href="/admin/kategori" class="text-[#f5b841] font-bold border-b-2 border-[#f5b841] pb-1">Kategori Menu</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-8">
+            <!-- Form Tambah Kategori -->
+            <div class="w-1/3 bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-fit">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Tambah Kategori</h2>
+                <form action="/admin/kategori" method="POST" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-800 font-semibold mb-2">Nama Kategori</label>
+                        <input type="text" name="nama" required placeholder="Misal: Minuman Dingin" class="w-full p-3 border border-gray-300 rounded-lg focus:border-[#f5b841] focus:ring-1 focus:ring-[#f5b841]">
+                    </div>
+                    <button type="submit" class="w-full py-3 rounded-lg bg-[#1a1714] text-white font-bold hover:bg-black transition">Simpan Kategori</button>
+                </form>
+            </div>
+
+            <!-- Tabel Kategori -->
+            <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden h-fit">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 text-gray-700 uppercase text-sm border-b border-gray-200">
+                            <th class="p-4 font-bold">ID</th>
+                            <th class="p-4 font-bold">Nama Kategori</th>
+                            <th class="p-4 font-bold text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-800">
+                        {% for item in kategori %}
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                            <td class="p-4 font-semibold text-gray-500">#{{ item.id }}</td>
+                            <td class="p-4 font-semibold">{{ item.nama }}</td>
+                            <td class="p-4 text-center">
+                                <a href="/admin/kategori/hapus/{{ item.id }}" onclick="return confirm('Hapus kategori ini?')" class="px-4 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-semibold hover:bg-red-200 transition">Hapus</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

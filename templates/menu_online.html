@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Jotoast</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f4f3f0] font-sans flex flex-col min-h-screen relative pb-28">
+
+    <!-- Header Landscape (Penuh) -->
+    <header class="bg-[#1a1714] px-10 py-6 flex justify-between items-center w-full">
+        <div>
+            <h1 class="text-[#f5b841] text-3xl font-bold tracking-tight">Jotoast</h1>
+            <p class="text-gray-300 text-sm mt-1">Pesan ricebowl, tost, dan kopi</p>
+        </div>
+        <!-- INI TOMBOL UNTUK NYAMBUNGIN KE HALAMAN LOGIN -->
+        <a href="/login" class="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-white text-sm font-semibold rounded-lg border border-gray-600 transition shadow-sm">
+            Login Pegawai
+        </a>
+    </header>
+
+    <!-- Konten Utama (Landscape / Desktop-friendly) -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-10 py-8">
+        
+        <!-- Filter Kategori -->
+        <div class="flex gap-3 mb-8">
+            <a href="/?kategori=semua" class="px-6 py-2.5 rounded-lg bg-[#f5b841] text-gray-900 font-bold shadow-sm">Semua</a>
+            <a href="/?kategori=Ricebowl" class="px-6 py-2.5 rounded-lg bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition">Ricebowl</a>
+            <a href="/?kategori=Tost" class="px-6 py-2.5 rounded-lg bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition">Tost</a>
+            <a href="/?kategori=Kopi" class="px-6 py-2.5 rounded-lg bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 transition">Kopi</a>
+        </div>
+
+        <!-- Grid Produk -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for item in produk %}
+                {% if item.status_ready %}
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-transparent hover:border-[#f5b841] transition flex flex-col justify-between">
+                    <div>
+                        <div class="w-full h-40 bg-[#efede8] rounded-xl mb-4"></div> 
+                        <h3 class="font-bold text-gray-900 text-lg">{{ item.nama }}</h3>
+                        <p class="text-gray-500 text-sm mt-1">Rp {{ item.harga }}</p>
+                    </div>
+                    <a href="/checkout" class="mt-5 block text-center bg-[#1a1714] text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-black transition shadow-md w-full">Tambah ke Keranjang</a>
+                </div>
+                {% else %}
+                <div class="bg-white p-5 rounded-2xl shadow-sm opacity-60 grayscale-[30%] flex flex-col justify-between border border-transparent">
+                    <div>
+                        <div class="w-full h-40 bg-[#efede8] rounded-xl mb-4"></div>
+                        <h3 class="font-bold text-gray-900 text-lg">{{ item.nama }}</h3>
+                        <p class="text-gray-500 text-sm mt-1">Rp {{ item.harga }}</p>
+                    </div>
+                    <div class="mt-5 text-center bg-gray-200 text-[#c62828] px-5 py-2.5 rounded-xl text-sm font-bold w-full cursor-not-allowed">Habis</div>
+                </div>
+                {% endif %}
+            {% else %}
+                <p class="text-gray-500 col-span-full">Menu belum tersedia.</p>
+            {% endfor %}
+        </div>
+    </main>
+
+    <!-- Floating Bar Checkout di Bawah (Penuh seukuran layar) -->
+    <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-5 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] z-20">
+        <div class="max-w-7xl mx-auto flex justify-between items-center px-10">
+            <div class="text-gray-700">
+                <span class="text-sm font-medium">Pesanan Pelanggan</span>
+                <p class="font-bold text-gray-900 text-xl mt-0.5">Lanjut ke proses pembayaran</p>
+            </div>
+            <a href="/checkout" class="bg-[#f5b841] text-gray-900 px-10 py-3.5 rounded-xl font-bold shadow-md hover:bg-yellow-500 transition text-lg">
+                Checkout Sekarang
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

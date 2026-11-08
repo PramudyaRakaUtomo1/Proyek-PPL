@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Produk - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f4f3f0] font-sans h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-lg">
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Edit Produk</h2>
+        
+        <form action="/admin/produk/edit/{{ produk.id }}" method="POST" class="space-y-5">
+            <div>
+                <label class="block text-gray-800 font-semibold mb-2">Nama Produk</label>
+                <input type="text" name="nama" value="{{ produk.nama }}" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-[#f5b841] focus:ring-1 focus:ring-[#f5b841]">
+            </div>
+            <div>
+                <label class="block text-gray-800 font-semibold mb-2">Harga (Rp)</label>
+                <input type="number" name="harga" value="{{ produk.harga }}" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-[#f5b841] focus:ring-1 focus:ring-[#f5b841]">
+            </div>
+            <div>
+                <label class="block text-gray-800 font-semibold mb-2">Kategori</label>
+                <select name="kategori_id" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-[#f5b841]">
+                    {% for kat in kategori %}
+                    <option value="{{ kat.id }}" {% if kat.id == produk.kategori_id %}selected{% endif %}>{{ kat.nama }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-800 font-semibold mb-2">Status</label>
+                <select name="status" class="w-full p-3 border border-gray-300 rounded-lg focus:border-[#f5b841]">
+                    <option value="Ready" {% if produk.status_ready %}selected{% endif %}>Ready</option>
+                    <option value="Habis" {% if not produk.status_ready %}selected{% endif %}>Habis</option>
+                </select>
+            </div>
+            <div class="flex gap-3 mt-8">
+                <a href="/admin/produk" class="flex-1 py-3 text-center rounded-lg bg-gray-200 text-gray-700 font-bold hover:bg-gray-300">Batal</a>
+                <button type="submit" class="flex-1 py-3 rounded-lg bg-[#1a1714] text-white font-bold hover:bg-black">Update Produk</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
